@@ -24,7 +24,7 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-background text-zinc-100">
       <div className="pointer-events-none absolute inset-0 bg-mesh opacity-80" />
-      <Navbar cursor={cursor} setCursor={setCursor} />
+      <Navbar cursor={cursor} setCursor={setCursor} onToday={() => { setCursor({ year: today.getFullYear(), month: today.getMonth() }); setSelectedDate(today.toISOString().split('T')[0]); }} />
       <main className="relative mx-auto w-full max-w-[1440px] space-y-8 px-4 pb-16 pt-28 md:space-y-10 md:px-10 xl:px-16">
         <motion.section {...fadeUp} className="grid gap-6 xl:grid-cols-3">
           <div className="xl:col-span-2">

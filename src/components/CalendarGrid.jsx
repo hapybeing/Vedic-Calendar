@@ -3,12 +3,7 @@ import { cardHover, easePremium } from './motionTokens';
 
 const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-const toneMap = {
-  Auspicious: 'text-emerald-200',
-  Favorable: 'text-gold-200',
-  Reflective: 'text-orange-200',
-  Neutral: 'text-zinc-300',
-};
+const toneMap = { 'Peak Day':'text-emerald-200', 'Strong Day':'text-gold-200', Neutral:'text-zinc-300', Caution:'text-orange-200', Avoid:'text-red-300' };
 
 export default function CalendarGrid({ monthData, selectedDate, onSelectDate, todayIso }) {
   const first = new Date(monthData[0].isoDate);
@@ -60,7 +55,7 @@ export default function CalendarGrid({ monthData, selectedDate, onSelectDate, to
                 aria-label={`Select ${day.isoDate}`}
               >
                 <p className="font-display text-xl leading-none">{day.day}</p>
-                <p className={`mt-1 truncate text-[10px] ${toneMap[day.significance]}`}>{day.tithi}</p>
+                <p className={`mt-1 truncate text-[10px] ${toneMap[day.label]}`}>{day.tithi}</p>
                 <div className="mt-1 flex items-center gap-1">
                   {isToday && <span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />}
                   {hasFestival && <span className="text-[10px] text-gold-200">✦</span>}
