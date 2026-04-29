@@ -1,56 +1,47 @@
 import { useMemo, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { fadeUp, easePremium } from './components/motionTokens';
 import Navbar from './components/Navbar';
 import CalendarGrid from './components/CalendarGrid';
 import DayCard from './components/DayCard';
+import TodayPanel from './components/TodayPanel';
+import InsightPanel from './components/InsightPanel';
+import FestivalHighlight from './components/FestivalHighlight';
 import InsightStrip from './sections/InsightStrip';
-import { panchangData } from './data/panchangData';
+import { getMonthPanchang, getPanchangForDate } from './data/panchangData';
 
-const monthLabels = [...new Set(panchangData.map((entry) => entry.month))];
+const today = new Date();
 
 export default function App() {
-  const [activeMonth, setActiveMonth] = useState(monthLabels[0]);
-  const [selectedDate, setSelectedDate] = useState(panchangData[0].date);
+  const [cursor, setCursor] = useState({ year: today.getFullYear(), month: today.getMonth() });
+  const [selectedDate, setSelectedDate] = useState(today.toISOString().split('T')[0]);
+  const location = 'Varanasi, IN';
 
-  const monthData = useMemo(() => panchangData.filter((entry) => entry.month === activeMonth), [activeMonth]);
-  const selectedDay = useMemo(() => panchangData.find((entry) => entry.date === selectedDate) ?? monthData[0], [monthData, selectedDate]);
+  const monthData = useMemo(() => getMonthPanchang(cursor.year, cursor.month, location), [cursor, location]);
+  const selectedDay = monthData.find((d) => d.isoDate === selectedDate) || monthData[0];
+  const todayData = getPanchangForDate(today, location);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-background text-zinc-100">
+    <div className="relative min-h-screen bg-background text-zinc-100">
       <div className="pointer-events-none absolute inset-0 bg-mesh opacity-80" />
-      <motion.div
-        initial={{ opacity: 0.2 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-gold-400/10 blur-3xl"
-      />
-      <Navbar months={monthLabels} activeMonth={activeMonth} setActiveMonth={setActiveMonth} />
-
-      <main className="relative mx-auto w-full max-w-7xl space-y-8 px-4 pb-14 pt-28 md:space-y-10 md:px-8">
-        <motion.section
-          initial={{ opacity: 0, y: 28 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-[28px] border border-white/10 bg-gradient-to-b from-white/[0.06] to-white/[0.02] p-6 shadow-glass backdrop-blur-2xl md:p-8"
-        >
-          <p className="text-xs uppercase tracking-[0.34em] text-gold-300/90">Elite Panchang Experience</p>
-          <h2 className="mt-3 max-w-3xl font-display text-3xl font-bold leading-tight md:text-5xl">
-            Precision Vedic Calendar with Ritual Context, Day Intelligence, and Fluid Interactions.
-          </h2>
+      <Navbar cursor={cursor} setCursor={setCursor} />
+      <main className="relative mx-auto w-full max-w-[1440px] space-y-8 px-4 pb-16 pt-28 md:space-y-10 md:px-10 xl:px-16">
+        <motion.section {...fadeUp} className="grid gap-6 xl:grid-cols-3">
+          <div className="xl:col-span-2">
+            <CalendarGrid monthData={monthData} selectedDate={selectedDay.isoDate} onSelectDate={setSelectedDate} todayIso={todayData.isoDate} />
+          </div>
+          <div className="space-y-6">
+            <TodayPanel today={todayData} />
+            <InsightPanel day={selectedDay} />
+          </div>
         </motion.section>
 
-        <motion.section
-          layout
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="grid gap-6 lg:grid-cols-[1.65fr_1fr]"
-        >
-          <CalendarGrid monthData={monthData} selectedDate={selectedDate} onSelectDate={setSelectedDate} activeMonth={activeMonth} />
-          <AnimatePresence mode="wait">
-            <DayCard key={selectedDay.date} day={selectedDay} />
-          </AnimatePresence>
-        </motion.section>
+        <FestivalHighlight day={selectedDay} />
 
-        <InsightStrip monthData={monthData} />
+        <motion.section layout transition={{ duration: 0.6, ease: easePremium }} className="grid gap-6 xl:grid-cols-[1.1fr_1fr]">
+          <DayCard day={selectedDay} />
+          <InsightStrip monthData={monthData} />
+        </motion.section>
       </main>
     </div>
   );

@@ -1,22 +1,83 @@
-export const panchangData = [
-  { date: '2026-05-01', month: 'May 2026', day: 1, weekday: 'Friday', tithi: 'Shukla Tritiya', nakshatra: 'Rohini', yoga: 'Saubhagya', karana: 'Garija', festival: 'Akshaya Tritiya' },
-  { date: '2026-05-02', month: 'May 2026', day: 2, weekday: 'Saturday', tithi: 'Shukla Chaturthi', nakshatra: 'Mrigashira', yoga: 'Shobhana', karana: 'Vanija', festival: '' },
-  { date: '2026-05-03', month: 'May 2026', day: 3, weekday: 'Sunday', tithi: 'Shukla Panchami', nakshatra: 'Ardra', yoga: 'Atiganda', karana: 'Vishti', festival: '' },
-  { date: '2026-05-04', month: 'May 2026', day: 4, weekday: 'Monday', tithi: 'Shukla Shashthi', nakshatra: 'Punarvasu', yoga: 'Sukarma', karana: 'Bava', festival: '' },
-  { date: '2026-05-05', month: 'May 2026', day: 5, weekday: 'Tuesday', tithi: 'Shukla Saptami', nakshatra: 'Pushya', yoga: 'Dhriti', karana: 'Balava', festival: '' },
-  { date: '2026-05-06', month: 'May 2026', day: 6, weekday: 'Wednesday', tithi: 'Shukla Ashtami', nakshatra: 'Ashlesha', yoga: 'Shoola', karana: 'Kaulava', festival: '' },
-  { date: '2026-05-07', month: 'May 2026', day: 7, weekday: 'Thursday', tithi: 'Shukla Navami', nakshatra: 'Magha', yoga: 'Ganda', karana: 'Taitila', festival: '' },
-  { date: '2026-05-08', month: 'May 2026', day: 8, weekday: 'Friday', tithi: 'Shukla Dashami', nakshatra: 'Purva Phalguni', yoga: 'Vriddhi', karana: 'Garija', festival: '' },
-  { date: '2026-05-09', month: 'May 2026', day: 9, weekday: 'Saturday', tithi: 'Shukla Ekadashi', nakshatra: 'Uttara Phalguni', yoga: 'Dhruva', karana: 'Vanija', festival: 'Mohini Ekadashi' },
-  { date: '2026-05-10', month: 'May 2026', day: 10, weekday: 'Sunday', tithi: 'Shukla Dwadashi', nakshatra: 'Hasta', yoga: 'Vyaghata', karana: 'Vishti', festival: '' },
-  { date: '2026-06-01', month: 'June 2026', day: 1, weekday: 'Monday', tithi: 'Krishna Pratipada', nakshatra: 'Mula', yoga: 'Siddhi', karana: 'Bava', festival: '' },
-  { date: '2026-06-02', month: 'June 2026', day: 2, weekday: 'Tuesday', tithi: 'Krishna Dwitiya', nakshatra: 'Purva Ashadha', yoga: 'Vyatipata', karana: 'Balava', festival: '' },
-  { date: '2026-06-03', month: 'June 2026', day: 3, weekday: 'Wednesday', tithi: 'Krishna Tritiya', nakshatra: 'Uttara Ashadha', yoga: 'Variyan', karana: 'Kaulava', festival: '' },
-  { date: '2026-06-04', month: 'June 2026', day: 4, weekday: 'Thursday', tithi: 'Krishna Chaturthi', nakshatra: 'Shravana', yoga: 'Parigha', karana: 'Taitila', festival: '' },
-  { date: '2026-06-05', month: 'June 2026', day: 5, weekday: 'Friday', tithi: 'Krishna Panchami', nakshatra: 'Dhanishta', yoga: 'Shiva', karana: 'Garija', festival: '' },
-  { date: '2026-06-06', month: 'June 2026', day: 6, weekday: 'Saturday', tithi: 'Krishna Shashthi', nakshatra: 'Shatabhisha', yoga: 'Siddha', karana: 'Vanija', festival: '' },
-  { date: '2026-06-07', month: 'June 2026', day: 7, weekday: 'Sunday', tithi: 'Krishna Saptami', nakshatra: 'Purva Bhadrapada', yoga: 'Sadhya', karana: 'Vishti', festival: '' },
-  { date: '2026-06-08', month: 'June 2026', day: 8, weekday: 'Monday', tithi: 'Krishna Ashtami', nakshatra: 'Uttara Bhadrapada', yoga: 'Shubha', karana: 'Bava', festival: '' },
-  { date: '2026-06-09', month: 'June 2026', day: 9, weekday: 'Tuesday', tithi: 'Krishna Navami', nakshatra: 'Revati', yoga: 'Shukla', karana: 'Balava', festival: '' },
-  { date: '2026-06-10', month: 'June 2026', day: 10, weekday: 'Wednesday', tithi: 'Krishna Dashami', nakshatra: 'Ashwini', yoga: 'Brahma', karana: 'Kaulava', festival: 'Ganga Dussehra' },
+const tithiCycle = [
+  'Shukla Pratipada', 'Shukla Dwitiya', 'Shukla Tritiya', 'Shukla Chaturthi', 'Shukla Panchami',
+  'Shukla Shashthi', 'Shukla Saptami', 'Shukla Ashtami', 'Shukla Navami', 'Shukla Dashami',
+  'Shukla Ekadashi', 'Shukla Dwadashi', 'Shukla Trayodashi', 'Shukla Chaturdashi', 'Purnima',
+  'Krishna Pratipada', 'Krishna Dwitiya', 'Krishna Tritiya', 'Krishna Chaturthi', 'Krishna Panchami',
+  'Krishna Shashthi', 'Krishna Saptami', 'Krishna Ashtami', 'Krishna Navami', 'Krishna Dashami',
+  'Krishna Ekadashi', 'Krishna Dwadashi', 'Krishna Trayodashi', 'Krishna Chaturdashi', 'Amavasya',
 ];
+
+const nakshatraCycle = [
+  'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha',
+  'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha',
+  'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishta', 'Shatabhisha',
+  'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati',
+];
+
+const yogaCycle = [
+  'Vishkambha', 'Priti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti',
+  'Shoola', 'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata', 'Harshana', 'Vajra', 'Siddhi', 'Vyatipata',
+  'Variyan', 'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti',
+];
+
+const karanaCycle = ['Bava', 'Balava', 'Kaulava', 'Taitila', 'Garija', 'Vanija', 'Vishti'];
+
+const festivalLookup = {
+  '01-14': 'Makara Sankranti',
+  '03-08': 'Maha Shivaratri',
+  '03-25': 'Holika Dahan',
+  '03-26': 'Holi',
+  '04-17': 'Rama Navami',
+  '05-03': 'Akshaya Tritiya',
+  '06-21': 'Ganga Dussehra',
+  '08-16': 'Janmashtami',
+  '09-07': 'Ganesh Chaturthi',
+  '10-19': 'Navratri Begins',
+  '10-31': 'Diwali',
+  '11-02': 'Govardhan Puja',
+};
+
+const favorableWindow = ['06:12–07:28', '09:04–10:25', '16:42–18:03'];
+const cautionWindow = ['07:30–09:00 (Rahu Kalam)', '13:30–15:00 (Yamaganda)'];
+
+const baseDate = new Date('2026-01-01T00:00:00');
+
+const diffDays = (date) => Math.floor((date.getTime() - baseDate.getTime()) / 86400000);
+
+const significance = (yoga, tithi, festival) => {
+  if (festival) return 'Auspicious';
+  if (yoga.includes('Siddhi') || yoga.includes('Shubha') || tithi.includes('Ekadashi')) return 'Favorable';
+  if (tithi.includes('Amavasya') || yoga.includes('Vyatipata')) return 'Reflective';
+  return 'Neutral';
+};
+
+export function getPanchangForDate(date, location = 'Varanasi, IN') {
+  const index = diffDays(date);
+  const tithi = tithiCycle[(index % tithiCycle.length + tithiCycle.length) % tithiCycle.length];
+  const nakshatra = nakshatraCycle[(index % nakshatraCycle.length + nakshatraCycle.length) % nakshatraCycle.length];
+  const yoga = yogaCycle[(index % yogaCycle.length + yogaCycle.length) % yogaCycle.length];
+  const karana = karanaCycle[(index % karanaCycle.length + karanaCycle.length) % karanaCycle.length];
+  const monthDay = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  const festival = festivalLookup[monthDay] || '';
+
+  return {
+    isoDate: date.toISOString().split('T')[0],
+    weekday: date.toLocaleDateString('en-US', { weekday: 'long' }),
+    day: date.getDate(),
+    month: date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+    tithi,
+    nakshatra,
+    yoga,
+    karana,
+    festival,
+    location,
+    significance: significance(yoga, tithi, festival),
+    bestWindows: favorableWindow,
+    cautionWindows: cautionWindow,
+  };
+}
+
+export function getMonthPanchang(year, monthIndex, location) {
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+  return Array.from({ length: daysInMonth }, (_, i) => getPanchangForDate(new Date(year, monthIndex, i + 1), location));
+}

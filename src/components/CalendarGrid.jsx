@@ -1,43 +1,39 @@
 import { motion } from 'framer-motion';
+import { cardHover } from './motionTokens';
 
-export default function CalendarGrid({ monthData, selectedDate, onSelectDate, activeMonth }) {
+const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+export default function CalendarGrid({ monthData, selectedDate, onSelectDate, todayIso }) {
+  const first = new Date(monthData[0].isoDate);
+  const leading = first.getDay();
+
   return (
-    <section className="rounded-[28px] border border-white/10 bg-surface/70 p-6 shadow-glass backdrop-blur-2xl md:p-7">
-      <div className="mb-6 flex items-end justify-between">
-        <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-gold-300/80">Monthly Grid</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold">{activeMonth}</h2>
-        </div>
-        <p className="text-sm text-zinc-400">{monthData.length} curated entries</p>
+    <section className="rounded-[32px] border border-white/10 bg-surface/75 p-7 shadow-glass backdrop-blur-2xl md:p-8">
+      <div className="mb-5 grid grid-cols-7 gap-2 text-center text-xs uppercase tracking-[0.18em] text-zinc-500">
+        {weekday.map((d) => <p key={d}>{d}</p>)}
       </div>
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-5 md:gap-4">
-        {monthData.map((day, idx) => {
-          const active = day.date === selectedDate;
+      <motion.div layout className="grid grid-cols-7 gap-2 md:gap-3">
+        {Array.from({ length: leading }).map((_, i) => <div key={`lead-${i}`} />)}
+        {monthData.map((day) => {
+          const active = day.isoDate === selectedDate;
+          const isToday = day.isoDate === todayIso;
+          const hasFestival = Boolean(day.festival);
           return (
             <motion.button
-              key={day.date}
-              layout
-              initial={{ opacity: 0, y: 10, scale: 0.99 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.52, delay: idx * 0.025, ease: [0.22, 1, 0.36, 1] }}
-              whileHover={{ y: -5 }}
-              whileTap={{ scale: 0.99 }}
-              onClick={() => onSelectDate(day.date)}
-              className={`rounded-2xl border p-4 text-left transition-all duration-300 ease-premium ${
-                active
-                  ? 'border-gold-300/75 bg-gradient-to-b from-gold-300/20 to-gold-300/5 shadow-glow'
-                  : 'border-white/10 bg-white/[0.02] hover:border-gold-300/35 hover:bg-white/[0.04]'
-              }`}
+              key={day.isoDate}
+              {...cardHover}
+              onClick={() => onSelectDate(day.isoDate)}
+              className={`aspect-square rounded-2xl border p-2 text-left transition-all ${
+                active ? 'border-gold-300/80 bg-gold-300/15 shadow-glow' : 'border-white/10 bg-white/[0.02] hover:border-gold-300/30'
+              } ${isToday ? 'ring-1 ring-emerald-300/60' : ''}`}
             >
-              <p className="text-[11px] uppercase tracking-[0.2em] text-zinc-400">{day.weekday}</p>
-              <p className="mt-2 font-display text-2xl font-semibold leading-none">{day.day}</p>
-              <p className="mt-3 truncate text-sm text-zinc-300">{day.tithi}</p>
-              <p className="mt-1 truncate text-xs text-zinc-500">{day.nakshatra}</p>
-              {day.festival && <p className="mt-3 text-xs text-gold-200">✦ {day.festival}</p>}
+              <p className="font-display text-xl leading-none">{day.day}</p>
+              <p className="mt-1 truncate text-[10px] text-zinc-400">{day.tithi}</p>
+              {hasFestival && <p className="mt-1 text-[10px] text-gold-200">✦</p>}
             </motion.button>
           );
         })}
-      </div>
+      </motion.div>
     </section>
   );
 }
