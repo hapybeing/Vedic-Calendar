@@ -20,6 +20,9 @@ export default function App() {
   const monthData = useMemo(() => getMonthPanchang(cursor.year, cursor.month, location), [cursor, location]);
   const selectedDay = monthData.find((d) => d.isoDate === selectedDate) || monthData[0];
   const todayData = getPanchangForDate(today, location);
+  const tomorrow = new Date(today); tomorrow.setDate(today.getDate() + 1);
+  const tomorrowData = getPanchangForDate(tomorrow, location);
+  const monthAvg = Math.round(monthData.reduce((a, d) => a + d.score, 0) / monthData.length);
 
   return (
     <div className="relative min-h-screen bg-background text-zinc-100">
@@ -31,7 +34,7 @@ export default function App() {
             <CalendarGrid monthData={monthData} selectedDate={selectedDay.isoDate} onSelectDate={setSelectedDate} todayIso={todayData.isoDate} />
           </div>
           <div className="space-y-6">
-            <TodayPanel today={todayData} />
+            <TodayPanel today={todayData} tomorrow={tomorrowData} monthAvg={monthAvg} />
             <InsightPanel day={selectedDay} />
           </div>
         </motion.section>

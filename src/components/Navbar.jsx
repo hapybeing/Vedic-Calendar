@@ -7,6 +7,8 @@ export default function Navbar({ cursor, setCursor, onToday }) {
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-white/10 bg-black/35 backdrop-blur-2xl">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-300/40 to-transparent" />
+      <motion.div animate={{ opacity: [0.15, 0.28, 0.15], x: [-40, 40, -40] }} transition={{ duration: 14, repeat: Infinity, ease: "linear" }} className="pointer-events-none absolute top-0 h-16 w-56 bg-gold-300/10 blur-2xl" />
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4 py-4 md:px-8 xl:px-12">
         <div><p className="font-display text-[11px] uppercase tracking-[0.36em] text-gold-300/80">CalendarOS</p><h1 className="font-display text-xl font-semibold">Intelligent Vedic Time System</h1></div>
         <div className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] p-1.5">

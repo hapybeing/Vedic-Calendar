@@ -4,6 +4,7 @@ import { cardHover, easePremium } from './motionTokens';
 const weekday = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
 const toneMap = { 'Peak Day':'text-emerald-200', 'Strong Day':'text-gold-200', Neutral:'text-zinc-300', Caution:'text-orange-200', Avoid:'text-red-300' };
+const heatTone = (score) => score >= 80 ? 'bg-gold-300/[0.10]' : score >= 60 ? 'bg-emerald-300/[0.09]' : score >= 40 ? '' : 'bg-red-300/[0.08]';
 
 export default function CalendarGrid({ monthData, selectedDate, onSelectDate, todayIso }) {
   const first = new Date(monthData[0].isoDate);
@@ -47,11 +48,11 @@ export default function CalendarGrid({ monthData, selectedDate, onSelectDate, to
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ ...cardHover.transition, delay: idx * 0.008 }}
                 onClick={() => onSelectDate(day.isoDate)}
-                className={`aspect-square rounded-2xl border p-2 text-left transition-all ${
+                className={`aspect-square rounded-2xl border p-2 text-left transition-all duration-300 ${
                   active
                     ? 'border-gold-300/75 bg-gradient-to-b from-gold-300/18 to-gold-500/8 shadow-glow'
                     : 'border-white/10 bg-white/[0.02] hover:border-gold-300/35 hover:bg-white/[0.05]'
-                } ${isToday ? 'ring-1 ring-emerald-300/65' : ''}`}
+                } ${isToday ? 'ring-1 ring-emerald-300/65' : ''} ${heatTone(day.score)}`}
                 aria-label={`Select ${day.isoDate}`}
               >
                 <p className="font-display text-xl leading-none">{day.day}</p>
